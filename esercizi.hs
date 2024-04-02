@@ -53,5 +53,35 @@ shiftToZero xs = shift xs (minimum xs)
                             in shiftedY : shift ys (min minTail y)
 
 
+elem' :: (Eq a) => a -> [a] -> Bool
+elem' _ [] = False
+elem' n (x:xs)
+    |n == x    = True
+    |otherwise = elem' n xs
+
+nub' :: (Eq a) => [a] -> [a]
+nub' [] = []
+nub' (x:xs)
+    |elem' x xs = nub' xs
+    |otherwise  = x: nub' xs
+
+isAsc :: [Int] -> Bool
+isAsc [] = True
+isAsc [_] = True
+isAsc (x:y:xs)
+    |x <= y = isAsc (y:xs)
+    |otherwise = False 
 
 
+hasPath :: [(Int,Int)] -> Int -> Int -> Bool
+hasPath [] a b = a == b
+hasPath xs a b
+    | a == b    = True
+    | otherwise =
+        let xs' = [(n,m) | (n,m) <- xs, n /= a]
+        in or [hasPath xs' m b | (n,m) <- xs, n==a]
+
+add' :: Int -> Int -> Int
+add' = (\x -> (\y -> x+y))
+
+doubleList = map (\x -> 2*x)
